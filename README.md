@@ -25,7 +25,7 @@ Examples of multi-round dialogues with ProteinChat for Q9U281, Q9XZG9, and Q9LU4
 
 **1. Prepare the code and the environment**
 
-Git clone our repository, creating a python environment and ativate it via the following command
+Git clone our repository, creating a python environment and ativate it via the following command (instllation time: ~ 4min)
 
 ```bash
 git clone https://github.com/mignonjia/ProteinChat.git
@@ -94,7 +94,7 @@ Modify the checkpoint paths in [configs/proteinchat_eval.yaml](configs/proteinch
 Download our ProteinChat's stage1_ckpt [here](https://drive.google.com/file/d/1H-POt4e5Q5fYF59ZwfSdAJyuQiJ2rtJl/view?usp=sharing). peft_ckpt can be set empty during evaluation.
 To evaluate stage-2, [this parameter](configs/proteinchat_eval.yaml#L6) needs to be set False.
 
-Evaluate on 20 samples on free-form function prediction and 10 samples for each specific-category prediction by running 
+Evaluate on entire specific-category prediction by running (~1 hour)
 ```bash
 bash demo.sh
 ``` 
