@@ -3,10 +3,10 @@ model:
   model_type: pretrain_vicuna
   freeze_protein_encoder: True
   freeze_qformer: True
-  freeze_llama: True
+  freeze_llama: False
   freeze_lp: True
 
-  llama_model: "/data2/mingjia/vicuna-13b-v1.5"
+  llama_model: "/data3/ruiyi/vicuna-13b-v1.5"
   
   # generation configs
   prompt: ""
@@ -14,9 +14,9 @@ model:
   max_txt_len: 405
   end_sym: "###"
   low_resource: True
-  peft_ckpt: '' # stage-2 ckpt
-  glm_load_path: /data2/mingjia/proteinglm-1b-mlm # should replace with your local path of protein GLM model.
-  stage1_ckpt: /data2/mingjia/protein/xtrimopglm/proteinchat_glm.pth # should replace with your local path of glm ckpt
+  peft_ckpt: '/data3/ruiyi/proteinchat/ckpt/clean/20251030014/checkpoint_0.pth' # stage-2 ckpt
+  glm_load_path: /data3/ruiyi/proteinglm-1b-mlm # should replace with your local path of protein GLM model.
+  stage1_ckpt: /data3/ruiyi/proteinchat/proteinchat_glm_1.pth # should replace with your local path of glm ckpt
   # /data1/mingjia/protein/proteinchat_output/esm/20240702230/checkpoint_4.pth # esm ckpt
 
 datasets:
@@ -24,7 +24,7 @@ datasets:
     data_type: protein
     build_info:
       train:
-        storage: data/train_set
+        storage: /data3/ruiyi/proteinchat/proteinchat-data/test_set
 
 run:
   task: protein_text_pretrain

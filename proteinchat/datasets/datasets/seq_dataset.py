@@ -27,7 +27,9 @@ q_map = {
     "Which cellular or extracellular component can this protein be found in?":
     " Choose one from Cytoplasm, Membrane, Nucleus, Secreted, Mitochondrion, and Plastid",
     "What biological process does this protein involved in?":
-    " Choose one from Molecule Transport, Transcription from DNA to mRNA, Amino-acid biosynthesis, Protein biosynthesis from mRNA molecules, Lipid metabolism, tRNA processing, DNA damage, and Cell cycle."
+    " Choose one from Molecule Transport, Transcription from DNA to mRNA, Amino-acid biosynthesis, Protein biosynthesis from mRNA molecules, Lipid metabolism, tRNA processing, DNA damage, and Cell cycle.",
+    "What is the EC number of this protein?":
+    ""
 }
 class SeqDataset(BaseDataset):
     def __init__(self, kw_path, text_rule_path, text_manual_path, seq_path):

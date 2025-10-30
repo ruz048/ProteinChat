@@ -141,6 +141,10 @@ class Chat:
         conv.append_message(conv.roles[1], None)
         embs = self.get_context_emb(conv, img_list)
 
+        # Check for NaN or Inf in embeddings
+        if torch.isnan(embs).any() or torch.isinf(embs).any():
+            raise ValueError("Input embeddings contain NaN or Inf values")
+
         if save_embeds:
             # print(embs.squeeze().detach().cpu().numpy().shape)
             np.save('/nfs_baoding_ai/mingjia_2023/proteinchat_glm/tsne/prompt.npy', embs.squeeze().detach().cpu().numpy())
@@ -198,7 +202,7 @@ class Chat:
             # only add bos to the first seg
             for i, seg in enumerate(predict_list)
         ]
-        predict_embs = [self.model.llama_model.model.embed_tokens(seg_t) for seg_t in predict_tokens]
+        predict_embs = [self.model.llama_model.get_input_embeddings()(seg_t) for seg_t in predict_tokens]
 
         conf_list = []
         with torch.no_grad():
@@ -259,7 +263,7 @@ class Chat:
         #     print("seg_token", seg)
         #     print("seg_token", seg.shape)
         # print("=====")
-        seg_embs = [self.model.llama_model.model.embed_tokens(seg_t) for seg_t in seg_tokens]
+        seg_embs = [self.model.llama_model.get_input_embeddings()(seg_t) for seg_t in seg_tokens]
         # for seg in seg_embs:
         #     print("seg_emb", seg.shape)
         # print("=====")

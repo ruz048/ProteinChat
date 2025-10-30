@@ -170,7 +170,7 @@ def eval_antimicro():
             chat_state, img_list, protein_embs = upload_protein(seq)
             chat_state = gradio_ask(user_message, chat_state)
 
-            llm_message, chat_state, img_list, loss = gradio_answer(chat_state, img_list, num_beams=4)
+            llm_message, chat_state, img_list, loss = gradio_answer(chat_state, img_list, num_beams=4, temperature=0.7)
 
             entry = {"seq": seq, "query": query, "correct_func": item['correct_func'], "predict_func": llm_message}
             func_text.append(entry)
@@ -203,7 +203,7 @@ def eval_func_text(qa_list, seq):
         chat_state, img_list, protein_embs = upload_protein(seq)
         chat_state = gradio_ask(user_message, chat_state)
 
-        llm_message, chat_state, img_list, loss = gradio_answer(chat_state, img_list, num_beams=4)
+        llm_message, chat_state, img_list, loss = gradio_answer(chat_state, img_list, num_beams=4, temperature=0.7)
 
         loss_list.append(loss)
         entry = {"seq": seq, "query": query, "correct_func": function, "predict_func": llm_message}
@@ -241,7 +241,7 @@ def eval_multi_round():
         chat_state, img_list, protein_embs = upload_protein(seq)
         chat_state = gradio_ask(user_message, chat_state)
 
-        llm_message, chat_state, img_list, loss = gradio_answer(chat_state, img_list, num_beams=4)
+        llm_message, chat_state, img_list, loss = gradio_answer(chat_state, img_list, num_beams=4, temperature=0.7)
         # message_2 = "What specific antibacterial activity?"
         # message_2 = "Can you elaborate on the specific type of histone protein described, its unique properties, and its function in the regulation of DNA accessibility within cells?"
         message_2 = "What ligand can this protein bind to?"
@@ -343,7 +343,8 @@ q_map = {
     "Which cellular or extracellular component can this protein be found in?":
     " Choose only one from Cytoplasm, Membrane, Nucleus, Secreted, Mitochondrion, and Plastid",
     "What biological process does this protein involved in?":
-    " Choose only one from Molecule Transport, Transcription from DNA to mRNA, Amino-acid biosynthesis, Protein biosynthesis from mRNA molecules, Lipid metabolism, tRNA processing, DNA damage, and Cell cycle."
+    " Choose only one from Molecule Transport, Transcription from DNA to mRNA, Amino-acid biosynthesis, Protein biosynthesis from mRNA molecules, Lipid metabolism, tRNA processing, DNA damage, and Cell cycle.",
+    "What is the EC number of this protein?": ""
 }
 
 def eval_kw(qa_list, seqs):
@@ -452,12 +453,13 @@ if  __name__ == "__main__":
     #         json.dump(scores, outfile, indent=4)
     
     # eval func text
-    seqs = json.load(open(f"data/valid_set/seq.json"))
-    seqs.update(json.load(open(f"data/test_set/seq.json")))
-    seqs.update(json.load(open(f"data/post_03_02_test_set/seq.json")))
-    ids = json.load(open(f"data/post_23_02_350_sampled_cov_40_0_ids.json")) + json.load(open(f"data/pre_23_02_350_sampled_cov_40_0_ids.json"))
+    '''
+    seqs = json.load(open(f"/data3/ruiyi/proteinchat/proteinchat-data/valid_set/seq.json"))
+    seqs.update(json.load(open(f"/data3/ruiyi/proteinchat/proteinchat-data/test_set/seq.json")))
+    seqs.update(json.load(open(f"/data3/ruiyi/proteinchat/proteinchat-data/post_03_02_test_set/seq.json")))
+    ids = json.load(open(f"/data3/ruiyi/proteinchat/proteinchat-data/post_23_02_350_sampled_cov_40_0_ids.json")) + json.load(open(f"/data3/ruiyi/proteinchat/proteinchat-data/pre_23_02_350_sampled_cov_40_0_ids.json"))
     for qa_file in ['manual']:  
-        qa_list = json.load(open(f"data/test_set/qa_text_{qa_file}.json")) + json.load(open(f"data/post_03_02_test_set/qa_text_{qa_file}.json"))
+        qa_list = json.load(open(f"/data3/ruiyi/proteinchat/proteinchat-data/test_set/qa_text_{qa_file}.json")) + json.load(open(f"/data3/ruiyi/proteinchat/proteinchat-data/post_03_02_test_set/qa_text_{qa_file}.json"))
         outfile_path = f"output_{qa_file}.json"
         qa_list = [qa for qa in qa_list if qa['uniprot_id'] in ids]
             
@@ -469,14 +471,16 @@ if  __name__ == "__main__":
             json.dump(func_text, outfile, indent=4)
     
     # eval  kw
-    seqs = json.load(open(f"data/test_set/seq.json"))
+    seqs = json.load(open(f"/data3/ruiyi/proteinchat/proteinchat-data/test_set/seq.json"))
     for i in [0, 1, 2, 3, 5]:
-        qa_list = json.load(open(f"data/test_set/kw/1000_q_id_{i}.json"))
+        qa_list = json.load(open(f"/data3/ruiyi/proteinchat/proteinchat-data/test_set/kw/1000_q_id_{i}.json"))
         scores = eval_kw(qa_list, seqs)
         with open(f"output_kw_q_id_{i}.json", "w") as outfile:
             json.dump(scores, outfile, indent=4)
-
-
+    '''
+    seqs = json.load(open(f"/data3/ruiyi/proteinchat/CLEAN_all_train_valid_splits/split10/split10_test_split_1_converted/seq.json"))
+    qa_list = json.load(open(f"/data3/ruiyi/proteinchat/CLEAN_all_train_valid_splits/split10/split10_test_split_1_converted/qa_kw.json"))
+    scores = eval_kw(qa_list, seqs)
 
 
 

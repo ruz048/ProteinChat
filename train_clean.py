@@ -34,7 +34,7 @@ from proteinchat.tasks import *
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Training")
-    parser.add_argument("--cfg-path", default="/home/ruiyi/proteinchat/configs/proteinchat_stage2_kw_robustness.yaml", help="path to configuration file.")
+    parser.add_argument("--cfg-path", default="/home/ruiyi/proteinchat/configs/proteinchat_stage2_clean.yaml", help="path to configuration file.")
     parser.add_argument(
         "--options",
         nargs="+",

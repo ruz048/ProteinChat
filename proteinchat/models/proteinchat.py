@@ -121,7 +121,7 @@ class ProteinChat(Blip2Base):
         self.end_sym = end_sym
 
     def encode_protein(self, seqs):
-        output = self.protein_tokenizer(seqs, add_special_tokens=True, return_tensors='pt')
+        output = self.protein_tokenizer(seqs, add_special_tokens=True, return_tensors='pt', padding=True)
 
         with torch.inference_mode():
             inputs = {"input_ids": output["input_ids"].cuda(), "attention_mask": output["attention_mask"].cuda()}
